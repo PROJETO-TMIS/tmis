@@ -1,0 +1,130 @@
+/* ======================================================
+   BASE.CSS — ESTILOS GLOBAIS DO SISTEMA TMIS
+   NÃO INCLUI MODAIS, CARDS OU COMPONENTES ESPECÍFICOS
+====================================================== */
+
+/* ================= RESET BÁSICO ================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #F5F6FA;
+  color: #333;
+}
+
+/* ================= VARIÁVEIS GLOBAIS ================= */
+:root {
+  --azul-primario: #026CE3;
+  --azul-gradiente: linear-gradient(to right, #026CE3, #2eb7ec);
+  --texto-claro: #ffffff;
+  --texto-escuro: #333333;
+  --cinza-bg: #F5F6FA;
+  --cinza-borda: #e1e4e8;
+}
+
+/* ================= HEADER (TOPO) ================= */
+.top-header {
+  background-color: var(--cinza-bg);
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--cinza-borda);
+}
+
+.logo img {
+  height: 140px;
+  margin-top: 12px;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 14px;
+  color: #555;
+}
+
+.user-area i {
+  cursor: pointer;
+}
+
+.user-name {
+  font-weight: 500;
+}
+
+/* ================= MENU DE NAVEGAÇÃO ================= */
+.nav-bar {
+  background-image: var(--azul-gradiente);
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 20px;
+  gap: 15px;
+}
+
+.nav-bar a {
+  color: var(--texto-claro);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.nav-bar a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-bar a.active {
+  background-color: rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+}
+
+/* ================= CONTAINER PADRÃO ================= */
+.content-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px 40px;
+}
+
+/* ================= TÍTULOS PADRÃO ================= */
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 600;
+  color: var(--texto-escuro);
+}
+
+/* ================= LINKS ================= */
+a {
+  color: var(--azul-primario);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ================= BOTÕES GENÉRICOS ================= */
+button {
+  font-family: inherit;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ================= RESPONSIVIDADE BASE ================= */
+@media (max-width: 768px) {
+  .content-container {
+    padding: 20px;
+  }
+
+  .nav-bar {
+    overflow-x: auto;
+  }
+}

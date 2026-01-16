@@ -1,0 +1,200 @@
+/* AGENDA MINIMALISTA - ESTILO GOOGLE CALENDAR */
+
+.agenda-section {
+  max-width: 1200px; /* Centraliza e evita que estique demais */
+  margin: 30px auto;
+  background-color: #fff;
+  padding: 0; /* Remove padding interno para o calendário encostar nas bordas se necessário */
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+  overflow: hidden;
+}
+
+.agenda-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #dadce0;
+}
+
+.agenda-header h2 {
+  font-size: 22px;
+  color: #3c4043;
+  font-weight: 400;
+  margin: 0;
+}
+
+.add-evento-btn {
+  background-color: #fff;
+  color: #3c4043;
+  border: 1px solid #dadce0;
+  padding: 8px 16px;
+  border-radius: 24px; /* Botão arredondado estilo Google */
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+}
+
+.add-evento-btn:hover {
+  background-color: #f1f3f4;
+  box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+}
+
+/* CALENDÁRIO */
+.calendar-container {
+  padding: 10px;
+}
+
+#calendario {
+  height: 750px;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+/* Customização FullCalendar para parecer Google Calendar */
+.fc {
+  border: none !important;
+}
+
+.fc-theme-standard td, .fc-theme-standard th {
+  border: 1px solid #dadce0 !important; /* Quadradinhos bem definidos */
+}
+
+.fc .fc-scrollgrid {
+  border: none !important;
+}
+
+.fc .fc-col-header-cell {
+  padding: 8px 0;
+  background: #fff;
+  font-weight: 500;
+  color: #70757a;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.fc .fc-daygrid-day-number {
+  padding: 8px;
+  color: #3c4043;
+  font-size: 12px;
+  text-decoration: none !important;
+}
+
+.fc .fc-day-today {
+  background-color: transparent !important;
+}
+
+.fc .fc-day-today .fc-daygrid-day-number {
+  background-color: #1a73e8;
+  color: #fff;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px auto;
+}
+
+/* Eventos Estilo Google */
+.fc-event {
+  border: none !important;
+  margin: 1px 2px !important;
+  padding: 2px 4px !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  transition: opacity 0.2s;
+}
+
+.fc-event:hover {
+  opacity: 0.8;
+}
+
+/* Cores Suaves (Pastéis) */
+.prioridade-baixa { background-color: #e6f4ea !important; color: #137333 !important; }
+.prioridade-media { background-color: #e8f0fe !important; color: #1967d2 !important; }
+.prioridade-alta { background-color: #fef7e0 !important; color: #b06000 !important; }
+.prioridade-urgente { background-color: #fce8e6 !important; color: #c5221f !important; }
+
+/* Toolbar */
+.fc .fc-toolbar {
+  margin-bottom: 15px !important;
+  padding: 0 10px;
+}
+
+.fc .fc-button-primary {
+  background-color: transparent !important;
+  border: 1px solid #dadce0 !important;
+  color: #3c4043 !important;
+  text-transform: capitalize !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: #f1f3f4 !important;
+}
+
+.fc .fc-button-active {
+  background-color: #e8f0fe !important;
+  color: #1967d2 !important;
+  border-color: #d2e3fc !important;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 18px !important;
+  color: #3c4043 !important;
+  font-weight: 400 !important;
+}
+
+/* MODAL ESTILO CLEAN */
+.modal-content {
+  border-radius: 8px !important;
+  box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2) !important;
+}
+
+.modal-header {
+  background: #fff !important;
+  border-bottom: none !important;
+  padding: 20px 24px 10px 24px !important;
+}
+
+.modal-header h3 {
+  color: #3c4043 !important;
+  font-size: 20px !important;
+  font-weight: 400 !important;
+}
+
+.modal-header .close {
+  color: #5f6368 !important;
+}
+
+.btn-salvar {
+  background-color: #1a73e8 !important;
+  border-radius: 4px !important;
+  font-weight: 500 !important;
+}
+
+.btn-cancelar {
+  background-color: transparent !important;
+  color: #1a73e8 !important;
+  font-weight: 500 !important;
+}
+
+.btn-cancelar:hover {
+  background-color: #f8f9fa !important;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .agenda-section {
+    margin: 10px;
+    max-width: 100%;
+  }
+}

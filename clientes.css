@@ -1,0 +1,327 @@
+/* ============================ clientes.css ============================ */
+/* CSS ESPECÍFICO DO MÓDULO CLIENTES */
+/* Baseado em base.css — sem duplicações globais */
+
+/* =========================
+   SEÇÃO CLIENTES (CARD)
+========================= */
+.clientes-section {
+  max-width: 95%;
+  margin: 20px auto;
+  background-color: #ffffff;
+  padding: 28px;
+  border-radius: 14px;
+  border: 1px solid var(--cinza-borda);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* HEADER DO CARD */
+.clientes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.clientes-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--texto-escuro);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* BOTÃO ADICIONAR */
+.add-cliente-btn {
+  background-color: var(--azul-primario);
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.add-cliente-btn:hover {
+  background-color: #025cc0;
+  box-shadow: 0 4px 10px rgba(2, 108, 227, 0.25);
+}
+
+/* =========================
+   FILTROS
+========================= */
+.clientes-filtros {
+  display: flex;
+  gap: 12px;
+  margin: 14px 0 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.clientes-filtros input,
+.clientes-filtros select {
+  min-width: 220px;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.clientes-filtros input:focus,
+.clientes-filtros select:focus {
+  outline: none;
+  border-color: var(--azul-primario);
+  box-shadow: 0 0 0 3px rgba(2, 108, 227, 0.15);
+}
+
+/* Linha divisória */
+.clientes-filtros::after {
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: #eee;
+  margin-top: 10px;
+}
+
+/* =========================
+   TABELA
+========================= */
+.clientes-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.clientes-table th,
+.clientes-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.clientes-table th {
+  background-color: #fafafa;
+  font-weight: 600;
+  color: #444;
+}
+
+.clientes-table tr:hover {
+  background-color: #f6faff;
+}
+
+.clientes-table td a {
+  color: var(--azul-primario);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.clientes-table td a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   BOTÕES DE AÇÃO
+========================= */
+.btn-acao {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 6px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-acao:hover {
+  transform: scale(1.15);
+  opacity: 0.85;
+}
+
+.btn-editar {
+  color: var(--azul-primario);
+}
+
+.btn-excluir {
+  color: #d13438;
+}
+
+/* =========================
+   MENSAGEM VAZIA
+========================= */
+.mensagem-vazia {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  font-size: 15px;
+}
+
+/* =========================
+   MODAL CLIENTES (ISOLADO)
+========================= */
+.clientes-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: clientesFadeIn 0.3s;
+}
+
+.clientes-modal.ativo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes clientesFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.clientes-modal-content {
+  background-color: #fff;
+  width: 90%;
+  max-width: 700px;
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  animation: clientesSlideDown 0.3s;
+}
+
+@keyframes clientesSlideDown {
+  from {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* HEADER MODAL */
+.clientes-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: var(--azul-gradiente);
+  border-radius: 14px 14px 0 0;
+}
+
+.clientes-modal-header h3 {
+  color: #fff;
+  font-size: 18px;
+  margin: 0;
+}
+
+.clientes-close {
+  font-size: 26px;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.clientes-close:hover {
+  transform: scale(1.2);
+}
+
+/* =========================
+   FORMULÁRIO
+========================= */
+form {
+  padding: 24px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--azul-primario);
+}
+
+/* FOOTER MODAL */
+.clientes-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .clientes-filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* ===== CORREÇÃO VISUAL DOS INPUTS EM LINHA ===== */
+.form-row .form-group {
+  margin-bottom: 0;
+}
+
+.form-row input {
+  height: 42px;
+}
+.btn-cancelar {
+  background: #e5e7eb;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-cancelar:hover {
+  background: #d1d5db;
+}
+
+.btn-salvar {
+  background: var(--azul-primario);
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-salvar:hover {
+  background: #025cc0;
+}
