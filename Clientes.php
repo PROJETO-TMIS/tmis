@@ -2,6 +2,8 @@
 
 <?php include('includes/header.php'); ?>
 
+<link rel="stylesheet" href="style/clientes.css">
+
 <main class="main-content clientes-section">
 
   <!-- CABEÇALHO DA PÁGINA -->

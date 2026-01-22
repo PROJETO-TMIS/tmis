@@ -1,6 +1,9 @@
+
 <?php include('includes/head.php'); ?>
 
 <?php include('includes/header.php'); ?>
+
+<link rel="stylesheet" href="style/home.css">
 
 <main class="main-content">
   

@@ -2,6 +2,8 @@
 
 <?php include('includes/header.php'); ?>
 
+<link rel="stylesheet" href="style/agenda.css" />
+
 <main class="main-content agenda-section">
     
   <!-- CABEÇALHO DA PÁGINA -->

@@ -2,6 +2,8 @@
 
 <?php include('includes/header.php'); ?>
 
+<link rel="stylesheet" href="style/configuracoes">
+
 <main class="main-content configuracoes-section">
     
   <!-- CABEÇALHO DA PÁGINA -->

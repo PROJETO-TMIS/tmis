@@ -2,6 +2,8 @@
 
 <?php include('includes/header.php'); ?>
 
+<link rel="stylesheet" href="style/documentos.css">
+
 <main class="main-content content-container">
 
   <!-- SEÇÃO: MODELOS DE DOCUMENTOS -->
