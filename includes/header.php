@@ -6,7 +6,7 @@
   <div class="user-area">
     <i class="fas fa-bell" title="Notificações"></i>
     <i class="fas fa-cog" title="Configurações"></i>
-    <span class="user-name">Samuel Lima <i class="fas fa-caret-down"></i></span>
+    <span class="user-name"> Nome Usuário <!-- ADICIONAR PELO PHP --> <i class="fas fa-caret-down"></i></span>
   </div>
 </header>
 
