@@ -27,7 +27,6 @@
         <p>ou use seu e-mail para cadastro:</p>
 
         <form id="loginForm">
-          <input type="text" id="nome" placeholder="Nome" required />
           <input type="email" id="email" placeholder="E-mail" required />
           <input type="password" id="senha" placeholder="Senha" required />
           <button type="submit">ENTRAR</button>
