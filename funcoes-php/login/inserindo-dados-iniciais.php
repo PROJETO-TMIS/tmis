@@ -1,16 +1,5 @@
 <?php 
 
-function gerarSenhaAleatoria() {
-
-}
-
-function criptografarSenha() {
-    
-}
-
-
-
-
 
 
 // ========== COLETANDO DADOS ==========
@@ -106,9 +95,9 @@ $config = [
     0 => ['chave' => 'nome_completo', 'funcao' => 'nome'],
     1 => ['chave' => 'email',         'funcao' => 'email'],
     2 => ['chave' => 'cpf',           'funcao' => 'cpf'],
-    3 => ['chave' => 'ddi',           'funcao' => 'ddi'],
+    3 => ['chave' => 'codigo_pais',    'funcao' => 'ddi'],
     4 => ['chave' => 'telefone',      'funcao' => 'telefone'],
-    5 => ['chave' => 'id_nivel',      'funcao' => 'niveisAcesso'] 
+    5 => ['chave' => 'nivel_acesso',      'funcao' => 'niveisAcesso'] 
 ];
 
 $funcionarioDicionario = [];
@@ -185,6 +174,7 @@ $stmt->execute();
 $empresa_existe = $stmt->fetch();
 
 
+
 if(!$empresa_existe) {
     $sql = "INSERT INTO empresas (nome_fantasia, razao_social, cnpj) VALUES (:nome_fantasia, :razao_social, :cnpj);";
     $stmt = $pdo->prepare($sql);
@@ -195,7 +185,7 @@ if(!$empresa_existe) {
 
     $stmt->execute();
 
-    $id_empresa= $pdo->lastInsertId();
+    $id_empresa = $pdo->lastInsertId();
     
     echo "
         <div style='padding: 15px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; font-family: sans-serif; margin: 10px 0;'>
@@ -209,6 +199,9 @@ if(!$empresa_existe) {
             <strong>⚠️ Atenção:</strong> Esta empresa já possui cadastro em nossa base de dados.
         </div>
         ";
+
+    $id_empresa = $empresa_existe['id'];
+
 }
 
 
@@ -219,7 +212,7 @@ if(!$empresa_existe) {
 foreach ($funcionariosDicionario as $funcionarioDicionario) {
     
     // 1. Verificar se o funcionário já existe (usando CPF como exemplo de identificador único)
-    $sql_busca = "SELECT id FROM funcionarios WHERE email = :email AND status = 'A' LIMIT 1";
+    $sql_busca = "SELECT id FROM usuarios WHERE email = :email AND status = 'A' LIMIT 1";
     $stmt_busca = $pdo->prepare($sql_busca);
     $stmt_busca->bindValue(':email', $funcionarioDicionario['email']); 
     $stmt_busca->execute();
@@ -227,31 +220,64 @@ foreach ($funcionariosDicionario as $funcionarioDicionario) {
 
     if (!$funcionario_existe) {
 
+        function senhaAleatoria($tamanho = 15) {
+            // Definimos os caracteres que podem compor a senha
+            $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*';
+            $senha = '';
+            $max = strlen($caracteres) - 1;
+
+            for ($i = 0; $i < $tamanho; $i++) {
+                // Seleciona um índice aleatório da string de caracteres
+                $senha .= $caracteres[random_int(0, $max)];
+            }
+
+            return $senha;
+        }
+
         //Gerando Senha
 
+        $senha = senhaAleatoria(12);
+        $senhaCp = password_hash($senha, PASSWORD_BCRYPT);
 
 
         
-        $sql_insere = "INSERT INTO funcionarios (id_empresa, nome_completo, email, cpf, senha, codigo_pais, telefone, nivel_acesso) VALUES (:id_empresa, :nome, :email, :cpf, :senha, :codigo_pais, :telefone, :nivel_acesso)";
+        $sql_insere = "INSERT INTO funcionarios (id_empresa, nome_completo, email, cpf, senha, codigo_pais, telefone, nivel_acesso) VALUES (:id_empresa, :nome_completo, :email, :cpf, :senha, :codigo_pais, :telefone, :nivel_acesso)";
         $stmt_insere = $pdo->prepare($sql_insere);
 
         // 3. Vincular os valores da variável que está sendo varrida
-        $stmt_insere->bindValue('id_empresa',   $id_empresa); 
-        $stmt_insere->bindValue(':nome',        $funcionario[0]); 
-        $stmt_insere->bindValue(':email',       $funcionario[1]);
-        $stmt_insere->bindValue(':cpf',         $funcionario[2]);
-        $stmt_insere->bindValue(':senha',       $senha);
-        $stmt_insere->bindValue(':codigo_pais', '55'); 
-        $stmt_insere->bindValue(':telefone',    $funcionario[3]); 
-        $stmt_insere->bindValue(':nivel_acesso',$funcionario[4]); 
+        $stmt_insere->bindValue(':id_empresa',    $id_empresa); 
+        $stmt_insere->bindValue(':nome_completo', $funcionarioDicionario['nome_completo']); 
+        $stmt_insere->bindValue(':email',         $funcionarioDicionario['email']);
+        $stmt_insere->bindValue(':cpf',           $funcionarioDicionario['cpf']);
+        $stmt_insere->bindValue(':senha',         $senhaCp);
+        $stmt_insere->bindValue(':codigo_pais',   $funcionarioDicionario['codigo_pais']); 
+        $stmt_insere->bindValue(':telefone',      $funcionarioDicionario['telefone']); 
+        $stmt_insere->bindValue(':nivel_acesso',  $funcionarioDicionario['nivel_acesso']); 
         
 
         $stmt_insere->execute();
         
-        echo "Funcionário {$funcionario[0]} cadastrado com sucesso! <br>";
+        echo "
+            <div style='padding: 20px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 8px; font-family: sans-serif; margin: 15px 0; line-height: 1.6;'>
+                <div style='font-size: 1.2em; margin-bottom: 10px;'>
+                    <strong>✅ Cadastro Realizado com Sucesso!</strong>
+                </div>
+                <hr style='border: 0; border-top: 1px solid #c3e6cb; margin: 10px 0;'>
+                <p style='margin: 5px 0;'>
+                    <strong>Empresa:</strong> {$empresaDicionario['nome_fantasia']}
+                </p>
+                <p style='margin: 5px 0;'>
+                    <strong>Funcionário:</strong> {$funcionario[0]}
+                </p>
+            </div>
+            ";
 
     } else {
-        echo "Funcionário com CPF {$funcionario[2]} já existe no sistema. <br>";
+        echo "
+            <div style='padding: 15px; background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; border-radius: 5px; font-family: sans-serif; margin: 10px 0;'>
+                <strong>⚠️ Atenção!</strong> O funcionário com CPF <strong>{$funcionario[2]}</strong> já está cadastrado no sistema.
+            </div>
+            ";
     }
 }
 
