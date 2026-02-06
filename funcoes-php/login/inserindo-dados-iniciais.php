@@ -1,5 +1,38 @@
 <?php 
 
+function senhaAleatoria($tamanho = 15) {
+    // Definimos os caracteres que podem compor a senha
+    $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*';
+    $senha = '';
+    $max = strlen($caracteres) - 1;
+
+    for ($i = 0; $i < $tamanho; $i++) {
+        // Seleciona um índice aleatório da string de caracteres
+        $senha .= $caracteres[random_int(0, $max)];
+    }
+
+    return $senha;
+}
+
+$conteudo = file_get_contents("../../.env");
+$dados = preg_split("/[=\n\r]+/", $conteudo);
+
+$db_host   = trim($dados[1]);
+$db_banco  = trim($dados[3]);
+$db_usuario = trim($dados[5]);
+$db_senha  = trim($dados[7]);
+
+
+// ABRINDO BANCO DE DADOS
+try {
+
+    $pdo = new PDO("mysql:host=$db_host;dbname=$db_banco", $db_usuario, $db_senha);
+    // Gerando um erro se der erro:
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+
+} catch (PDOException $e) {
+    die("Erro ao abrir o banco: " . $e->getMessage());
+}
 
 
 // ========== COLETANDO DADOS ==========
@@ -32,7 +65,7 @@ if (($handle = fopen($caminhoFuncionarios, "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
     
     if ($linhaAtual >= 3) {
-        $linha = array_slice($data, 0, 3);
+        $linha = array_slice($data, 0, 6);
         array_push($funcionarios, $linha);
     }
     
@@ -145,25 +178,7 @@ if (!empty($erros)) {
 
 // ========== ESCREVENDO DADOS ==========
 
-$conteudo = file_get_contents("../../.env");
-$dados = preg_split("/[=\n\r]+/", $conteudo);
 
-$db_host   = trim($dados[1]);
-$db_banco  = trim($dados[3]);
-$db_usuario = trim($dados[5]);
-$db_senha  = trim($dados[7]);
-
-
-// ABRINDO BANCO DE DADOS
-try {
-
-    $pdo = new PDO("mysql:host=$db_host;dbname=$db_banco", $db_usuario, $db_senha);
-    // Gerando um erro se der erro:
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-
-} catch (PDOException $e) {
-    die("Erro ao abrir o banco: " . $e->getMessage());
-}
 
 
 // ADICIONANDO EMPRESAS
@@ -205,6 +220,7 @@ if(!$empresa_existe) {
 }
 
 
+require_once('enviar-email.php');
 
 
 
@@ -212,27 +228,15 @@ if(!$empresa_existe) {
 foreach ($funcionariosDicionario as $funcionarioDicionario) {
     
     // 1. Verificar se o funcionário já existe (usando CPF como exemplo de identificador único)
-    $sql_busca = "SELECT id FROM usuarios WHERE email = :email AND status = 'A' LIMIT 1";
+    $sql_busca = "SELECT id FROM usuarios WHERE email = :email AND id_empresa = :id_empresa AND status = 'A' LIMIT 1";
     $stmt_busca = $pdo->prepare($sql_busca);
     $stmt_busca->bindValue(':email', $funcionarioDicionario['email']); 
+    $stmt_busca->bindValue(':id_empresa', $id_empresa); 
     $stmt_busca->execute();
     $funcionario_existe = $stmt_busca->fetch();
 
     if (!$funcionario_existe) {
 
-        function senhaAleatoria($tamanho = 15) {
-            // Definimos os caracteres que podem compor a senha
-            $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*';
-            $senha = '';
-            $max = strlen($caracteres) - 1;
-
-            for ($i = 0; $i < $tamanho; $i++) {
-                // Seleciona um índice aleatório da string de caracteres
-                $senha .= $caracteres[random_int(0, $max)];
-            }
-
-            return $senha;
-        }
 
         //Gerando Senha
 
@@ -241,7 +245,7 @@ foreach ($funcionariosDicionario as $funcionarioDicionario) {
 
 
         
-        $sql_insere = "INSERT INTO funcionarios (id_empresa, nome_completo, email, cpf, senha, codigo_pais, telefone, nivel_acesso) VALUES (:id_empresa, :nome_completo, :email, :cpf, :senha, :codigo_pais, :telefone, :nivel_acesso)";
+        $sql_insere = "INSERT INTO usuarios (id_empresa, nome_completo, email, cpf, senha, codigo_pais, telefone, id_nivel_acesso) VALUES (:id_empresa, :nome_completo, :email, :cpf, :senha, :codigo_pais, :telefone, :nivel_acesso)";
         $stmt_insere = $pdo->prepare($sql_insere);
 
         // 3. Vincular os valores da variável que está sendo varrida
@@ -256,6 +260,11 @@ foreach ($funcionariosDicionario as $funcionarioDicionario) {
         
 
         $stmt_insere->execute();
+
+        $html = file_get_contents('email.html');
+        $html_final = str_replace(['{{usuario}}', '{{senha}}'], [$funcionarioDicionario['email'], $senha], $html);
+
+        $mensagem_email = enviarEmail($funcionarioDicionario['email'], 'Bem-vindo ao TMIS', $html_final);
         
         echo "
             <div style='padding: 20px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 8px; font-family: sans-serif; margin: 15px 0; line-height: 1.6;'>
@@ -267,15 +276,31 @@ foreach ($funcionariosDicionario as $funcionarioDicionario) {
                     <strong>Empresa:</strong> {$empresaDicionario['nome_fantasia']}
                 </p>
                 <p style='margin: 5px 0;'>
-                    <strong>Funcionário:</strong> {$funcionario[0]}
+                    <strong>Funcionário:</strong> {$funcionarioDicionario['nome_completo']}
+                </p>
+                <p style='margin: 5px 0;'>
+                    <strong>E-mail:</strong> {$funcionarioDicionario['email']}
+                </p>
+                </p>
+                <p style='margin: 5px 0;'>
+                    <strong>Status e-mail enviado:</strong> $mensagem_email
                 </p>
             </div>
             ";
 
     } else {
         echo "
-            <div style='padding: 15px; background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; border-radius: 5px; font-family: sans-serif; margin: 10px 0;'>
-                <strong>⚠️ Atenção!</strong> O funcionário com CPF <strong>{$funcionario[2]}</strong> já está cadastrado no sistema.
+            <div style='padding: 20px; background-color: #fff3cd; color: #664d03; border: 1px solid #ffecb5; border-radius: 8px; font-family: sans-serif; margin: 15px 0; line-height: 1.6;'>
+                <div style='font-size: 1.2em; margin-bottom: 10px;'>
+                    <strong> ⚠️Atenção! Funcionário já cadastro na empresa</strong>
+                </div>
+                <hr style='border: 0; border-top: 1px solid #664d03; margin: 10px 0;'>
+                <p style='margin: 5px 0;'>
+                    <strong>Funcionário:</strong> {$funcionarioDicionario['nome_completo']}
+                </p>
+                <p style='margin: 5px 0;'>
+                    <strong>E-mail:</strong> {$funcionarioDicionario['email']}
+                </p>
             </div>
             ";
     }
