@@ -10,6 +10,10 @@
   </div>
 </header>
 
+<?php 
+require('../tmis/funcoes-php/login/verificacao-login.php');
+?>
+
 <!-- MENU -->
 <nav class="nav-bar">
   <a class="active" href="home.php"><i class="fas fa-house"></i> Área de trabalho</a>

@@ -27,17 +27,18 @@
         <p>ou use seu e-mail para cadastro:</p>
 
         <form id="loginForm">
-          <input type="text" id="nome" placeholder="Nome" required />
-          <input type="email" id="email" placeholder="E-mail" required />
-          <input type="password" id="senha" placeholder="Senha" required />
+          <input type="email" id="email" name="email" placeholder="E-mail" required />
+          <input type="password" id="senha" name="senha" placeholder="Senha" required />
           <button type="submit">ENTRAR</button>
         </form>
       </div>
     </div>
   </div>
 
+  <p id="Erro">Mensagem Erro</p>
+
   <!-- JavaScript deve ser carregado no final do body -->
-  <script src="login.js"></script>
+  <script src="js/login.js"></script>
 </body>
 
 </html>

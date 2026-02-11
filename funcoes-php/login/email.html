@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Credenciais TMIS</title>
+
+  <style>
+    /* Geral (emails: mantenha simples e com fallback) */
+    body { margin:0; padding:0; background:#f5f6fa; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    table { border-collapse:collapse; border-spacing:0; }
+    img { border:0; -ms-interpolation-mode:bicubic; display:block; max-width:100%; height:auto; }
+    a { color:inherit; text-decoration:none; }
+
+    /* Container */
+    .email-wrap { width:100%; padding:18px 12px; background:#f5f6fa; }
+    .email-container { max-width:600px; margin:0 auto; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,.06); }
+
+    .header {
+      background: linear-gradient(135deg, #2eb7ec 0%, #0256b3 100%);
+      background-color: #0256b3;
+      padding: 6px 20px; 
+      text-align: center;
+    }
+
+    .logo { 
+      width: 200px; 
+      max-width:160px; 
+      height:auto; 
+      display:block; 
+      margin:0 auto; 
+    }
+
+    /* Conteúdo */
+    .content { padding:22px 26px; font-family:Arial, Helvetica, sans-serif; color:#222; font-size:15px; line-height:1.6; }
+    .credentials {
+      background:#f7fbff;
+      border:1px solid rgba(2,108,227,0.08);
+      border-radius:8px;
+      padding:14px;
+      margin:16px 0;
+      font-size:15px;
+    }
+    .cred-row { margin-bottom:8px; }
+    .cred-row:last-child { margin-bottom:0; }
+    .cred-label { 
+      color:#4b5563; 
+      font-weight:700; 
+      font-size:13px; 
+      display:inline-block;
+      min-width:88px;
+    }
+    .cred-value { 
+      color:#0f1724; 
+      font-weight:800; 
+      word-break:break-word; 
+      display:inline-block;
+    }
+
+    .cta { text-align:center; margin:18px 0 4px; }
+    .btn {
+      display:inline-block;
+      background:#026CE3;
+      color:#fff !important;
+      padding:12px 26px;
+      border-radius:26px;
+      font-weight:700;
+      font-size:15px;
+      text-decoration:none;
+    }
+    .btn:hover { background:#0256b3; }
+
+    .note { color:#556074; font-size:13px; margin-top:8px; }
+
+    .footer {
+      background:#fbfcfe;
+      padding:12px 18px;
+      text-align:center;
+      font-size:13px;
+      color:#6b7280;
+      border-top:1px solid #eef3fb;
+    }
+
+    /* Responsivo */
+    @media only screen and (max-width:600px) {
+      .email-wrap { padding:8px 4px; }
+      .email-container { border-radius:4px; }
+      
+      .header { padding:10px 16px; } /* Ainda mais fino no mobile */
+      .logo { width:130px; max-width:130px; }
+      
+      .content { padding:18px 16px; font-size:14px; }
+      
+      .cred-label { 
+        min-width:auto; 
+        font-size:12px; 
+        display:block;
+        margin-bottom:4px;
+      }
+      .cred-value {
+        display:block;
+        font-size:14px;
+      }
+      .cred-row { margin-bottom:12px; }
+      
+      .btn { 
+        width:100%; 
+        box-sizing:border-box; 
+        display:block; 
+        padding:14px 16px; 
+        border-radius:8px; 
+      }
+    }
+  </style>
+</head>
+<body>
+  <table class="email-wrap" role="presentation" width="100%">
+    <tr>
+      <td align="center">
+        <table class="email-container" role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          <!-- HEADER SLIM -->
+          <tr>
+            <td class="header" align="center">
+              <img src="cid:logo_tmis" alt="TMIS" width="160">
+            </td>
+          </tr>
+
+          <!-- BODY -->
+          <tr>
+            <td class="content">
+              <p style="margin:0 0 12px;">Olá,</p>
+
+              <p style="margin:0 0 12px;">
+                Seja bem-vindo(a) ao <strong>TMIS</strong>. Sua conta foi criada com sucesso. Abaixo estão as credenciais para primeiro acesso:
+              </p>
+
+              <div class="credentials" role="group" aria-label="Credenciais de acesso">
+                <div class="cred-row">
+                  <span class="cred-label">Usuário:</span>
+                  <span class="cred-value">{{usuario}}</span>
+                </div>
+
+                <div class="cred-row">
+                  <span class="cred-label">Senha:</span>
+                  <span class="cred-value">{{senha}}</span>
+                </div>
+              </div>
+
+              <p class="note" style="margin:0 0 14px;">
+                Recomendamos alterar a senha no primeiro acesso e não compartilhar suas credenciais.
+              </p>
+
+              <div class="cta">
+                <a href="#" class="btn" target="_blank" rel="noopener">Acessar o sistema</a>
+              </div>
+
+              <p style="margin:18px 0 0;">Se tiver qualquer dúvida, responda este e-mail ou entre em contato com o suporte.</p>
+
+              <p style="margin:12px 0 0;"><strong>Atenciosamente,</strong><br>Equipe TMIS</p>
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td class="footer">
+              © 2026 TMIS • Todos os direitos reservados
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
