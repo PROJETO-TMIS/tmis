@@ -1,5 +1,8 @@
 <?php 
-$conteudo = file_get_contents("../../.env");
+
+require_once(__DIR__ . '/../config.php');
+
+$conteudo = file_get_contents(RAIZ_PROJETO . '/.env');
 $dados = preg_split("/[=\n\r]+/", $conteudo);
 
 $db_host   = trim($dados[1]);

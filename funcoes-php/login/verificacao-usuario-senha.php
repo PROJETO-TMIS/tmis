@@ -2,11 +2,17 @@
 
 session_start();
 
-require_once('../conexao.php');
+require_once(__DIR__ . '/../../config.php');
+require_once(RAIZ_PROJETO . '/funcoes-php/conexao.php');
 
-$email = 'tiagohilarioterto@gmail.com';
-$senha = 'VY48TdYcDR*W';
+//$email = 'tiagohilarioterto@gmail.com';
+//$senha = 'VY48TdYcDR*W';
 $permanecer_logado = true;
+
+$email = $_POST['email'];
+$senha = $_POST['senha'];
+//$permanecer_logado = $_POST['permanecer_logado'];
+$json = [];
 
 
 
@@ -22,7 +28,6 @@ if (!empty($dados)) {
     $senhaCp = $dados['senha'];
 
     if (password_verify($senha, $senhaCp)) {
-        echo "Senha correta! Iniciando sessão...";
 
         $_SESSION['id'] = $dados['id'];
         $_SESSION['nome_usuario'] = $dados['nome_usuario'];
@@ -32,7 +37,7 @@ if (!empty($dados)) {
         if($permanecer_logado){
             $token = bin2hex(random_bytes(32));
 
-            setcookie("remember_me", $token, time() + (86400 * 30), "/");
+            setcookie('permanecer_logado', $token, time() + (60 * 60 * 24 * 30), "/");
 
             $sql = "UPDATE usuarios SET token = :token, impressao_digital = :impressao_digital WHERE id = :id";
             $stmt = $pdo->prepare($sql);
@@ -51,11 +56,17 @@ if (!empty($dados)) {
             $stmt->execute();
 
         }
+
+        $json['sucesso'] = true;
        
     } else {
-        echo "Senha incorreta.";
+        $json['sucesso'] = false;
+        $json['mensagem'] = 'Senha incorreta';
     }
 } else {
-    echo "E-mail não cadastro";
+    $json['sucesso'] = false;
+    $json['mensagem'] = 'E-mail não cadastro, tente redefinir a senha...';
 }
+
+echo json_encode($json);
 ?>
